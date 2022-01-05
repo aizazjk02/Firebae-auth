@@ -1,11 +1,9 @@
+import firebase from "firebase/compat/app";
+import "firebase/compat/firestore";
+import "firebase/compat/auth";
 
-// First we need to import the firebase and the auth libs 
-import firebase from "firebase/compat/app"
-import "firebase/compact/auth"
-
-// WE meed this config obj to connect with our firebase app 
-// WE can get this key anytime from the firebase console 
-const firebaseConfigObj = {
+// firebase config key for the firebase connection
+const firebaseConfig = {
   apiKey: "AIzaSyA_CzzbPjiLC0SkzeU2pdfpc7ohe7YQ6PM",
   authDomain: "disney-clone-6f0ea.firebaseapp.com",
   projectId: "disney-clone-6f0ea",
@@ -14,20 +12,17 @@ const firebaseConfigObj = {
   appId: "1:538036973617:web:1b52616dee4cd65f41e510",
 };
 
-
-// Now we need to initalize the firebase app 
-firebase.initializeApp(firebaseConfigObj);
-
-// Initalize the authentication 
+// Initializing the firebase services
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 const auth = firebase.auth();
 
-// Now we need to setup the google auth 
+// Setting up the google authentication
 const provider = new firebase.auth.GoogleAuthProvider();
-
-// We need to add this custom parameter so that we get the select account prompt 
 provider.setCustomParameters({ promp: "select_account" });
+const signInWithGoogle = () => auth.signInWithPopup(provider);
+// const storage = firebase.storage();
 
-// We can use this function anywhere to sign with google 
-const signInWithGoogle = () => auth.signInWithGoogle(provider)
+export { auth, provider, signInWithGoogle };
 
-export {signInWithGoogle,auth}
+export default db;
